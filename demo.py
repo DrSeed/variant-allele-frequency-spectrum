@@ -1,0 +1,12 @@
+import os, numpy as np, matplotlib; matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+os.makedirs("figures",exist_ok=True); os.makedirs("results",exist_ok=True)
+rng=np.random.default_rng(9)
+clonal=rng.normal(0.48,0.04,300); sub=rng.normal(0.18,0.05,400)
+vaf=np.clip(np.concatenate([clonal,sub]),0,1)
+plt.figure(figsize=(7,4)); plt.hist(vaf,bins=40,color="slateblue",alpha=.8)
+plt.axvline(0.5,ls="--",c="k",label="clonal (~0.5)"); plt.axvline(0.18,ls="--",c="grey",label="subclonal")
+plt.xlabel("variant allele frequency"); plt.ylabel("number of mutations")
+plt.title("VAF spectrum (demo data)"); plt.legend()
+plt.tight_layout(); plt.savefig("figures/demo.png",dpi=150)
+open("results/summary.txt","w").write(f"{len(vaf)} mutations, clonal+subclonal peaks\n"); print("ok")
